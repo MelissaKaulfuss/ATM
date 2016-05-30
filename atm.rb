@@ -1,14 +1,17 @@
+FIVE_DOLLAR_NOTE = 5
 TEN_DOLLAR_NOTE = 10
+
 
 def withdraw(amount)
   if amount <= 0 # this deals with some of the situations...
     return false
   end
 
-  if (amount % TEN_DOLLAR_NOTE == 0)
+  if (amount % FIVE_DOLLAR_NOTE==0)
     notes=[]
     number_of_ten_dollar_notes = amount / TEN_DOLLAR_NOTE
     number_of_ten_dollar_notes.times {notes<<TEN_DOLLAR_NOTE}
+    notes<<FIVE_DOLLAR_NOTE if (amount % TEN_DOLLAR_NOTE == FIVE_DOLLAR_NOTE)
     return notes
   end
 
@@ -27,9 +30,9 @@ describe 'atm' do
     [-1, false],
     [0, false],
     [7, false],
-    [45, false],
     [20, [10, 10]],
-    [40, [10, 10, 10, 10]],
+    [25, [10, 10, 5]],
+    [35, [10, 10, 10, 5]],
   ].each do |input, expected|
     it "should return #{expected} when $#{input} is withdrawn" do
       withdraw(input).must_equal expected
